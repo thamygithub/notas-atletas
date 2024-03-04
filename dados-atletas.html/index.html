@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dados dos Atletas</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #005003;
+        font-weight: bolder;
+    }
+
+    #app {
+        text-align: center;
+        max-width: 400px;
+        margin: 0 auto;
+    }
+
+    label {
+        display: block;
+        margin-top: 10px;
+    }
+
+    input {
+        width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+        box-sizing: border-box;
+    }
+
+    button {
+        background-color: #000000;
+        color: white;
+        padding: 10px 15px;
+        margin-top: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #42b848;
+    }
+
+    #resultado {
+        margin-top: 20px;
+        text-align: left;
+    }
+
+    p {
+        margin: 5px 0;
+    }
+</style>
+
+</head>
+<body>
+    <div id="app">
+        <h1>Dados dos Atletas</h1>
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" placeholder="Digite o nome do atleta">
+        
+        <label for="idade">Idade:</label>
+        <input type="number" id="idade" placeholder="Digite a idade do atleta">
+        
+        <label for="peso">Peso (kg):</label>
+        <input type="number" id="peso" placeholder="Digite o peso do atleta">
+        
+        <label for="altura">Altura (m):</label>
+        <input type="number" id="altura" placeholder="Digite a altura do atleta">
+        
+        <label for="notas">Notas (separadas por vírgula):</label>
+        <input type="text" id="notas" placeholder="Digite as notas do atleta">
+        
+        <button onclick="calcular()">Calcular</button>
+        <div id="resultado"></div>
+    </div>
+
+
+    <script>
+        class Atleta {
+    constructor(nome, idade, peso, altura, notas) {
+        this.nome = nome;
+        this.idade = idade;
+        this.peso = peso;
+        this.altura = altura;
+        this.notas = notas;
+    }
+
+    calculaCategoria() {
+        if (this.idade >= 9 && this.idade <= 11) {
+            return "Infantil";
+        } else if (this.idade >= 12 && this.idade <= 13) {
+            return "Juvenil";
+        } else if (this.idade >= 14 && this.idade <= 15) {
+            return "Intermediário";
+        } else if (this.idade >= 16 && this.idade <= 30) {
+            return "Adulto";
+        } else {
+            return "Sem categoria";
+        }
+    }
+
+    calculaIMC() {
+        const imc = this.peso / (this.altura * this.altura);
+        return imc.toFixed(2);
+    }
+
+    calculaMediaValida() {
+        if (this.notas.length === 0) {
+            return 0;
+        }
+        const somaNotas = this.notas.reduce((total, nota) => total + nota, 0);
+        return (somaNotas / this.notas.length).toFixed(2);
+    }
+
+    obtemNomeAtleta() {
+        return this.nome;
+    }
+
+    obtemIdadeAtleta() {
+        return this.idade;
+    }
+
+    obtemPesoAtleta() {
+        return this.peso;
+    }
+
+    obtemNotasAtleta() {
+        return this.notas;
+    }
+
+    obtemCategoria() {
+        return this.calculaCategoria();
+    }
+
+    obtemIMC() {
+        return this.calculaIMC();
+    }
+
+    obtemMediaValida() {
+        return this.calculaMediaValida();
+    }
+}
+function calcular() {
+            const nome = document.getElementById('nome').value;
+            const idade = parseInt(document.getElementById('idade').value);
+            const peso = parseFloat(document.getElementById('peso').value);
+            const altura = parseFloat(document.getElementById('altura').value);
+            const notas = document.getElementById('notas').value.split(',').map(parseFloat);
+
+            const atleta = new Atleta(nome, idade, peso, altura, notas);
+
+            const resultadoDiv = document.getElementById('resultado');
+            resultadoDiv.innerHTML = `
+            <p><strong>Nome:</strong> ${atleta.obtemNomeAtleta()}</p>
+            <p><strong>Idade:</strong> ${atleta.obtemIdadeAtleta()}</p>
+            <p><strong>Peso:</strong> ${atleta.obtemPesoAtleta()} kg</p>
+            <p><strong>Notas:</strong> ${atleta.obtemNotasAtleta().join(', ')}</p>
+            <p><strong>Categoria:</strong> ${atleta.obtemCategoria()}</p>
+            <p><strong>IMC:</strong> ${atleta.obtemIMC()}</p>
+            <p><strong>Média Válida:</strong> ${atleta.obtemMediaValida()}</p>`;
+        }
+
+    </script>
+</body>
+</html>
