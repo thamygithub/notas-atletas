@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        body {
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            background-color: #f1a5cf;
+            margin: 20px;
+            font-weight: bolder;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px #ffffff;;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 12px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #000000;
+            color: #ffffff;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bolder;
+        }
+
+        button:hover {
+            background-color: #d60397;
+        }
+        div {
+            width: 350px;
+            margin: 0 auto;
+        }
+        #resultado{
+            font-weight: bolder;
+        }
+        </style>
+    
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notas dos Atletas</title>
+</head>
+<body>
+    <div>
+        <h1>Nota dos Atletas</h1>
+        
+    <label for="name">Nome do Atleta:</label>
+    <input type="text" id="name" name="name" required>
+         
+    <label for="atleta">Notas:</label>
+    <input type="text" id="notas" name="notas" required>
+
+    <button type="button" onclick="calcularMedia()">Calcular Média</button>
+
+    <p id="resultadoContainer" style="display:none;"></p>
+    </div>
+     
+    <script>
+
+function calcularMedia() {
+            let nome = document.getElementById('name').value;
+            let notasStr = document.getElementById('notas').value;
+            let notas = notasStr.split(',').map(nota => parseFloat(nota.trim()));
+            let notasOrdenadas = notas.slice().sort((a, b) => a - b);
+            let notasIntermediarias = notasOrdenadas.slice(1, -1);
+
+            let media = calcularMediaNotas(notasIntermediarias);
+            let resultadoContainer = document.getElementById("resultadoContainer");
+            resultadoContainer.innerHTML = `<p>Atleta: ${nome}</p><p>Notas Obtidas: ${notasIntermediarias.join(', ')}</p><p>Média Válida: ${media.toFixed(2)}</p>`;
+            resultadoContainer.style.display = 'block';
+        }
+
+        function calcularMediaNotas(notas) {
+            if (notas.length === 0) return 0;
+            let somaNotas = notas.reduce((total, nota) => total + nota, 0);
+            return somaNotas / notas.length;
+        }
+
+        let atletas = [
+            {
+                nome: "Cesar Abascal",
+                notas: [10, 9.34, 8.42, 10, 7.88],
+            },
+            {
+                nome: "Fernando Puntel",
+                notas: [8, 10, 10, 7, 9.33],
+            },
+            {
+                nome: "Daiane Jelinsky",
+                notas: [7, 10, 9.5, 9.5, 8],
+            },
+            {
+                nome: "Bruno Castro",
+                notas: [10, 10, 10, 9, 9.5],
+            },
+        ];
+
+    </script>
+</body>
+</html>
